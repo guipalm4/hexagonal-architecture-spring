@@ -1,2 +1,3 @@
 rootProject.name = 'hexagonal-architecture-spring'
 include 'domain'
+include 'infrastructure'

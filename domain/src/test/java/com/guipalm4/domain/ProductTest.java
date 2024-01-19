@@ -41,6 +41,33 @@ public class ProductTest extends UnitTest {
     }
     
     @Test
+    @DisplayName("Given a null sku should be not create a new Product and throws DomainException")
+    void testCreateProductWithNullSku() {
+        
+        final var expectedName = "A new Product";
+        final var expectedPrice = 10.00;
+        final var expectedQuantity = 5.0;
+        
+        final var expectedErrorCount = 1;
+        final var expectedErrorMessage = "'sku' should not be null or empty";
+        
+        final var actualException =
+                Assertions.assertThrows(
+                        DomainException.class,
+                        () -> Product.newProduct(
+                                null,
+                                expectedName,
+                                expectedPrice,
+                                expectedQuantity
+                        )
+                );
+        
+        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+    }
+    
+    
+    @Test
     @DisplayName("Given a null name should be not create a new Product and throws DomainException")
     void testCreateProductWithNullName() {
         
@@ -95,6 +122,7 @@ public class ProductTest extends UnitTest {
     @Test
     @DisplayName("Given a valid name should be return a updated product")
     void testChangeName() {
+        
         final var expectedProductId = ProductID.unique();
         final var expectedName = "A Product";
         final var expectedSku = "1828PR";

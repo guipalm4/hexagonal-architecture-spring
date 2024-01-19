@@ -30,10 +30,16 @@ public class ProductValidator extends Validator {
     private void checkConstraints() {
 
         final var handler = this.validationHandler();
+        
+        final var sku = this.aggregate.getSku();
+        if (sku == null || sku.isBlank()) {
+            handler.append(new Error("'sku' should not be null or empty"));
+            return;
+        }
 
         final var name = this.aggregate.getName();
         if (name == null || name.isBlank()) {
-            this.validationHandler().append(new Error("'name' should not be null or empty"));
+            handler.append(new Error("'name' should not be null or empty"));
             return;
         }
 
